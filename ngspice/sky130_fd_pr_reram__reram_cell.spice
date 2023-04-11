@@ -1,0 +1,44 @@
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     https://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* SPDX-License-Identifier: Apache-2.0
+
+
+.subckt sky130_fd_pr_reram__reram_cell TE BE Tfilament_0=3.3 area_ox=0.1024e-12
+N1 TE BE nFilament sky130_fd_pr_reram__reram_model
+.ic v(nFilament)={Tfilament_0}
+.ends sky130_fd_pr_reram__reram_cell
+
+.model sky130_fd_pr_reram__reram_model sky130_fd_pr_reram__reram_module area_ox=0.1024e-12
++ area_ox = 0.1024e-12
++ Tox = 5.0
++ Tfilament_max = 4.9
++ Tfilament_min = 3.3
++ Eact_generation = 1.501
++ Eact_recombination  = 1.500
++ I_k1  = 6.140e-5
++ Tfilament_ref = 4.7249
++ V_ref = 0.430
++ velocity_k1 = 150
++ gamma_k0  = 16.5
++ gamma_k1  = -1.25 
++ Temperature_0 = 300
++ C_thermal = 3.1825e-16
++ tau_thermal = 0.23e-9
++ t_step  = 1.0e-9 
++ smoothing = 1e-7
++ Kclip = 200
+
+.control
+pre_osdi /foss/pdks/sky130B/libs.tech/ngspice/sky130_fd_pr_reram__reram_module.osdi
+.endc

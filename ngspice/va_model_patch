@@ -2,7 +2,7 @@
 < module sky130_fd_pr_reram__reram_cell(TE, BE);
 ---
 > 
-> module sky130_fd_pr_reram__reram_cell(TE, BE, nFilament);
+> module sky130_fd_pr_reram__reram_module(TE, BE, nFilament);
 23c24,25
 <     electrical TE, BE;
 ---
@@ -14,13 +14,13 @@
 <     parameter real Tfilament_min       = 3.3e-9     from (0:inf);                         // minimum thickness of conductive filament (for maximum resistance) [meters]
 <     parameter real Tfilament_0         = 3.3e-9     from [Tfilament_min:Tfilament_max];   // initial thickness of conductive filament (at t=0 for transient simulation) [meters]
 ---
->     parameter real Tox                 = 5.0     from (0:inf);                         // thickness of oxide between TE and BE [meters]
->     parameter real Tfilament_max       = 4.9     from (0:inf);                         // maximum thickness of conductive filament (for minimum resistance) [meters]
->     parameter real Tfilament_min       = 3.3     from (0:inf);                         // minimum thickness of conductive filament (for maximum resistance) [meters]
+>     parameter real Tox                 = 5.0     from (0:inf);                         // thickness of oxide between TE and BE [nano meters]
+>     parameter real Tfilament_max       = 4.9     from (0:inf);                         // maximum thickness of conductive filament (for minimum resistance) [nano meters]
+>     parameter real Tfilament_min       = 3.3     from (0:inf);                         // minimum thickness of conductive filament (for maximum resistance) [nano meters]
 39c40
 <     parameter real Tfilament_ref       = 4.7249e-9  from (0:inf);                         // filament thickness calibration parameter [meters]
 ---
->     parameter real Tfilament_ref       = 4.7249  from (0:inf);                         // filament thickness calibration parameter [meters]
+>     parameter real Tfilament_ref       = 4.7249  from (0:inf);                         // filament thickness calibration parameter [nano meters]
 50a52,54
 >     parameter real smoothing = 1e-7 from (0:inf);                                         // smoothing for limit step
 >     parameter real Kclip = 200 from (0:inf);                                              // clip between max/min
@@ -28,7 +28,7 @@
 54c58
 <     real a0 = 0.25e-9;           // atomic distance [m]
 ---
->     real a0 = 0.25;           // atomic distance [m]
+>     real a0 = 0.25;           // atomic distance [nm]
 59a64
 >     real Fw1, Fw2;               // calculate limit step
 66,70c71,73
