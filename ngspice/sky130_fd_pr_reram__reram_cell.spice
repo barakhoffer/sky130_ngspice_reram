@@ -14,9 +14,9 @@
 * SPDX-License-Identifier: Apache-2.0
 
 
-.subckt sky130_fd_pr_reram__reram_cell TE BE Tfilament_0=3.3 area_ox=0.1024e-12
+.subckt sky130_fd_pr_reram__reram_cell TE BE Tfilament_0=3.3e-9 area_ox=0.1024e-12
 N1 TE BE nFilament sky130_fd_pr_reram__reram_model
-.ic v(nFilament)={Tfilament_0}
+.ic v(nFilament)={Tfilament_0*1.0e9}
 .ends sky130_fd_pr_reram__reram_cell
 
 .model sky130_fd_pr_reram__reram_model sky130_fd_pr_reram__reram_module area_ox=0.1024e-12
