@@ -61,28 +61,30 @@
 <             Temperature_current = Temperature_0;
 <             Tfilament_current = Tfilament_0;
 < 	end
-90,93c82,85
+90,97c82,91
 <         t_current = $abstime; // current time
 <         t_delta = t_current - t_previous;
 <         gamma = gamma_k0 + gamma_k1 * pow((Tox - Tfilament_current)/1.0e-9, 3);
 < 	kT_over_q = (`P_K * Temperature_current) / `P_Q;
----
->         Tfilament_current = V(nFilament, BE);
->         Temperature_current = V(nT, BE);
->         gamma = gamma_k0 + gamma_k1 * pow((Tox - Tfilament_current), 3);
->         kT_over_q = (`P_K * Temperature_current) / `P_Q;
-96,97c88,91
+<         Tfilament_dTdt = velocity_k1 * (exp(-Eact_generation    / kT_over_q) * exp( gamma * a0/Tox * V(TE,BE) / kT_over_q) -
+<                                         exp(-Eact_recombination / kT_over_q) * exp(-gamma * a0/Tox * V(TE,BE) / kT_over_q));
 <         Tfilament_current = Tfilament_current + Tfilament_dTdt * t_delta; // 1st-order update to filament thickness
 <         Tfilament_current = soft_minmax(Tfilament_current, Tfilament_min, Tfilament_max); // bound filament thickness
 ---
+>         Tfilament_current = V(nFilament);
+> 	    Temperature_current = V(nT);
+>         gamma = gamma_k0 + gamma_k1 * pow((Tox - Tfilament_current), 3);
+>         kT_over_q = (`P_K * Temperature_current) / `P_Q;
+>         Tfilament_dTdt = velocity_k1 * (exp(-Eact_generation    / kT_over_q) * limexp( gamma * a0/Tox * V(TE,BE) / kT_over_q) -
+>                                         exp(-Eact_recombination / kT_over_q) * limexp(-gamma * a0/Tox * V(TE,BE) / kT_over_q));
 >         Fw1 = smoothstep(Tfilament_min-Tfilament_current, smoothing);
 >         Fw2 = smoothstep(Tfilament_current-Tfilament_max, smoothing);
->         I(nFilament, BE) <+ Tfilament_dTdt + (limexp(Kclip*(Tfilament_min-Tfilament_current)) - Tfilament_dTdt) * Fw1 + (-limexp(Kclip*(Tfilament_current-Tfilament_max)) - Tfilament_dTdt) * Fw2;
->         I(nFilament, BE) <+ ddt(-1.0e-9*Tfilament_current);
+>         I(nFilament) <+ Tfilament_dTdt + (limexp(Kclip*(Tfilament_min-Tfilament_current)) - Tfilament_dTdt) * Fw1 + (-limexp(Kclip*(Tfilament_current-Tfilament_max)) - Tfilament_dTdt) * Fw2;
+>         I(nFilament) <+ ddt(-1.0e-9*Tfilament_current);        
 99,101c93,94
 <         Temperature_current = (Temperature_current + t_delta * (abs(V(TE,BE)*I(TE,BE)) / C_thermal + Temperature_0/tau_thermal))
 <                               / (1 + t_delta/tau_thermal); // 1st-order update to temperature
 < 	t_previous = $abstime; // current time step is previous time step for next iteration
 ---
->         I(nT, BE) <+ abs(V(TE,BE)*I(TE,BE))/C_thermal + (Temperature_0-Temperature_current)/tau_thermal;
->         I(nT, BE) <+ ddt(-Temperature_current);
+>         I(nT) <+ abs(V(TE,BE)*I(TE,BE))/C_thermal + (Temperature_0-Temperature_current)/tau_thermal;
+>         I(nT) <+ ddt(-Temperature_current);
